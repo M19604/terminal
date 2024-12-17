@@ -53,7 +53,38 @@
         display: block;
         padding-bottom: 1vw;
     }
+
+    #loginPage {
+        width: 100%;
+        height: 100%;
+        background-color: #191919;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #loginPage #password {
+        width: 30%;
+        height: 15%;
+        border-radius: 1vw;
+        background-color: #333;
+        border: .25vw solid #191919;
+        outline: .15vw solid #333;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        padding-left: 2vw;
+        font-size: 2.25vw;
+        color: var(--white);
+    }
 </style>
+<div id="loginPage">
+    <input id="password" type="password" placeholder="Password">
+</div>
 <div id="title"></div>
 <span id="input"></span>
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
@@ -137,11 +168,20 @@
         }
     })
     document.addEventListener("keydown", e => {
-        if (characters.includes(e.key.toLowerCase())) {
-            input.textContent += e.key;
+        if (document.getElementById("loginPage").style.display === "none") {
+            if (characters.includes(e.key.toLowerCase())) {
+                input.textContent += e.key;
+            }
+            if (e.key === "Backspace") {
+                input.textContent = input.textContent.substring(0, input.textContent.length - 1);
+            }
         }
-        if (e.key === "Backspace") {
-            input.textContent = input.textContent.substring(0, input.textContent.length - 1);
+    })
+    document.getElementById("password").addEventListener("keyup", e => {
+        if (e.key === "Enter" && document.getElementById("loginPage").style.display !== "none") {
+            if (document.getElementById("password").value === window.atob("TzE1MTI=")) {
+                document.getElementById("loginPage").style.display = "none";
+            }
         }
     })
 </script>
