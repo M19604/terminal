@@ -1,48 +1,35 @@
 <!--** WRITTEN BY LUKE SKUTT, 12/18/2024 **-->
 <title>Racket Bot</title>
-<style>
-    body {
-        background-color: #181818;
-    }
-</style>
+<style>body {background-color: #181818;}</style>
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <script>
     const realtime = new Ably.Realtime("f-2P0w.ETPdKQ:iFCWp8Xob5TEW81vorEyYQpLuaWlkH21gSmJ0N6ngZk");
-    async function initialize() {
-        await realtime.connection.once("connected");
-        const channel = realtime.channels.get("location-ch");
-    }
+    async function initialize() {await realtime.connection.once("connected");const channel = realtime.channels.get("location-ch");}
     initialize();
-    var strikes = {};
-    var warnings = {};
+    var strikes,warnings = {};
     realtime.channels.get("location-ch").subscribe((event) => {
-        if (event.data.split(" >> ")[1].split(" - ")[0] !== "Racket") {
-            if (strikes.hasOwnProperty(event.data.split(" >> ")[1].split(" - ")[0])) {
-                strikes[event.data.split(" >> ")[1].split(" - ")[0]]++;
-                if (strikes[event.data.split(" >> ")[1].split(" - ")[0]]>=5) {
-                    if (warnings.hasOwnProperty(event.data.split(" >> ")[1].split(" - ")[0])) {
-                        warnings[event.data.split(" >> ")[1].split(" - ")[0]]++;
-                        if (warnings[event.data.split(" >> ")[1].split(" - ")[0]]>3) {
-                            realtime.channels.get("location-ch").publish("update", event.data.split(" >> ")[0] + ` >> Racket - ${event.data.split(" >> ")[1].split(" - ")[0]} has been reset for spamming.`);
-                            realtime.channels.get("location-ch").publish("command", `reset__${event.data.split(" >> ")[1].split(" - ")[0]}`);
-                        } else {
-                            realtime.channels.get("location-ch").publish("update", event.data.split(" >> ")[0] + ` >> Racket - ${event.data.split(" >> ")[1].split(" - ")[0]} has been warned for spamming.`);
-                            strikes[event.data.split(" >> ")[1].split(" - ")[0]] = 0;
+        var user=event.data.split(" >> ")[1].split(" - ")[0];
+        if (user !== "Racket") {
+            if(strikes.hasOwnProperty(user)){
+                strikes[user]++;
+                if(strikes[user]>=5){
+                    if(warnings.hasOwnProperty(user)){
+                        warnings[user]++;
+                        if(warnings[user]>3){
+                            realtime.channels.get("location-ch").publish("update",event.data.split(" >> ")[0]+` >> Racket - ${user} has been reset for spamming.`);
+                            realtime.channels.get("location-ch").publish("command",`reset__${user}`);
+                        }else{
+                            realtime.channels.get("location-ch").publish("update",event.data.split(" >> ")[0]+` >> Racket - ${user} has been warned for spamming.`);
+                            strikes[user]=0;
                         }
-                    } else {
-                        warnings[event.data.split(" >> ")[1].split(" - ")[0]] = 0;
-                    }
+                    }else{warnings[user]=0}
                 }
-            } else {
-                strikes[event.data.split(" >> ")[1].split(" - ")[0]] = 0;
+            }else{
+                strikes[user]=0;
             }
         }
     })  
-    setInterval(function() {
-        strikes = {};
-    }, 5000)
-    document.addEventListener("click", e => {
-        realtime.channels.get("location-ch").publish("update", "Racket >> Racket - Wow, super cool Racket bot!");
-    })
+    setInterval(function(){strikes={}},5000)
+    document.addEventListener("click",e=>{realtime.channels.get("location-ch").publish("update","Racket >> Racket - Wow, super cool Racket bot!")})
 </script>
 <!--** WRITTEN BY LUKE SKUTT, 12/18/2024 **-->
