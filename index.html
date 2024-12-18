@@ -180,6 +180,10 @@
     document.getElementById("password").addEventListener("keyup", e => {
         if (e.key === "Enter" && document.getElementById("loginPage").style.display !== "none") {
             if (document.getElementById("password").value === window.atob("TzE1MTI=")) {
+                while (document.getElementsByClassName("result")[0]) {
+                    document.getElementsByClassName("result")[0].remove();
+                    document.getElementsByClassName("input")[0].remove(); 
+                }
                 document.getElementById("loginPage").style.display = "none";
             }
         }
