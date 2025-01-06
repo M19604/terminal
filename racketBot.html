@@ -2,6 +2,7 @@
 <title>Racket Bot</title>
 <style>body {background-color: #181818;color:#5865F2;font-family:sans-serif;font-size:5vw;font-weight:1000;display:flex;align-items:center;justify-content:center}</style>
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+Racket Bot
 <script>
     const realtime = new Ably.Realtime("f-2P0w.ETPdKQ:iFCWp8Xob5TEW81vorEyYQpLuaWlkH21gSmJ0N6ngZk");
     async function initialize() {await realtime.connection.once("connected");const channel = realtime.channels.get("location-ch");}
