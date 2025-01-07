@@ -22,6 +22,7 @@ Racket Bot
                         }else{
                             realtime.channels.get("location-ch").publish("update",event.data.split(" >> ")[0]+` >> Racket - ${user} has been warned for spamming.`);
                             strikes[user]=0;
+                            warnings[user]=0
                         }
                     }else{warnings[user]=0}
                 }
