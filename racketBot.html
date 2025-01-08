@@ -19,10 +19,11 @@ Racket Bot
                         if(warnings[user]>3){
                             realtime.channels.get("location-ch").publish("update",event.data.split(" >> ")[0]+` >> Racket - ${user} has been reset for spamming.`);
                             realtime.channels.get("location-ch").publish("command",`reset__${user}`);
+                            warnings[user]=0;
+                            strikes[user]=0;
                         }else{
                             realtime.channels.get("location-ch").publish("update",event.data.split(" >> ")[0]+` >> Racket - ${user} has been warned for spamming.`);
                             strikes[user]=0;
-                            warnings[user]=0
                         }
                     }else{warnings[user]=0}
                 }
