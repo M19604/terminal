@@ -10,7 +10,7 @@ Racket Bot
     var strikes,warnings = {};
     realtime.channels.get("location-ch").subscribe((event) => {
         var user=event.data.split(" >> ")[1].split(" - ")[0];
-        if (user !== "Racket") {
+        if (user !== "Racket" && user !== "Luke Skutt") {
             if(strikes.hasOwnProperty(user)){
                 strikes[user]++;
                 if(strikes[user]>=5){
